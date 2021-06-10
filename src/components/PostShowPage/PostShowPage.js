@@ -17,6 +17,7 @@ export default function PostShowPage() {
     useEffect(() => {
         const request = axios.get(`http://localhost:4000/posts/${postId}`);
         request.then((response) => setPost(response.data));
+        request.catch((error) => alert(error.response.data));
     }, [postId]);
 
     function onEditButtonClick() {
@@ -25,7 +26,8 @@ export default function PostShowPage() {
 
     function onDeleteButtonClick() {
         const request = axios.delete(`http://localhost:4000/posts/${postId}`);
-        request.then(history.push("/"));
+        request.then(() => history.push("/"));
+        request.catch((error) => alert(error.response.data));
     }
 
     if (!post) return <Spinner />;

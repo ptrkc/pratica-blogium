@@ -7,13 +7,15 @@ export default function NewStoryPage() {
     const [title, setTitle] = useState("");
     const [coverUrl, setCoverUrl] = useState("");
     const [content, setContent] = useState("");
-    const [isSaveButtonDisabled, setSaveButtonDisable] = useState(false);
     const history = useHistory();
 
     function onPostSaveButtonClick() {
         const body = { title, coverUrl, content };
         const request = axios.post("http://localhost:4000/posts", body);
-        request.then(history.push("/"));
+        request.then(() => {
+            history.push("/");
+        });
+        request.catch((error) => alert(error.response.data));
     }
     return (
         <PostManipulation
@@ -24,7 +26,6 @@ export default function NewStoryPage() {
             content={content}
             onContentChange={(newContent) => setContent(newContent)}
             onPostSaveButtonClick={onPostSaveButtonClick}
-            isSaveButtonDisabled={isSaveButtonDisabled}
         />
     );
 }

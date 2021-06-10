@@ -20,6 +20,7 @@ export default function PostEditPage() {
             setCoverUrl(response.data.coverUrl);
             setContent(response.data.content);
         });
+        request.catch((error) => alert(error.response.data));
     }, [postId]);
 
     function onPostSaveButtonClick() {
@@ -28,7 +29,8 @@ export default function PostEditPage() {
             `http://localhost:4000/posts/${postId}`,
             body
         );
-        request.then(history.push(`/posts/${postId}`));
+        request.then(() => history.push(`/posts/${postId}`));
+        request.catch((error) => alert(error.response.data));
     }
 
     if (!post || !content) return <Spinner />;

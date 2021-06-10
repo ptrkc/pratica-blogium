@@ -8,11 +8,16 @@ import axios from "axios";
 export default function PostComments({ postId }) {
     const [comments, setComments] = useState([]);
     useEffect(() => {
+        getComments();
+    }, [postId]);
+
+    function getComments() {
         const request = axios.get(
             `http://localhost:4000/posts/${postId}/comments`
         );
         request.then((response) => setComments(response.data));
-    }, [postId]);
+        request.catch((error) => alert(error.response.data));
+    }
 
     return (
         <Container>
@@ -20,7 +25,7 @@ export default function PostComments({ postId }) {
             {comments.length > 0
                 ? comments.map((c) => <Comment comment={c} key={c.id} />)
                 : "No comments yet. Be the first to comment!"}
-            <AddComment postId={postId} />
+            <AddComment postId={postId} getComments={getComments} />
         </Container>
     );
 }

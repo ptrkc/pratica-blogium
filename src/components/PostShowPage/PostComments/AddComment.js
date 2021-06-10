@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import Button from "../../Button";
 
-export default function AddComment({ postId }) {
+export default function AddComment({ postId, getComments }) {
     const [name, setName] = useState("");
     const [content, setContent] = useState("");
 
@@ -18,7 +18,12 @@ export default function AddComment({ postId }) {
             `http://localhost:4000/posts/${postId}/comments`,
             body
         );
-        request.then(alert("Comment posted!"));
+        request.then(() => {
+            getComments();
+            setName("");
+            setContent("");
+        });
+        request.catch((error) => alert(error.response.data));
     }
 
     return (
